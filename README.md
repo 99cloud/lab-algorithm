@@ -2,8 +2,6 @@
 
 基于Python 3.x，对于常规定算法、包以及在实际问题中可能遇到的工具进行简单的整理
 
-[传送门](https://github.com/FDUJiaG/PyWay)
-
 ## Catalog
 
 - Normal Algorithm
