@@ -66,12 +66,12 @@ from sklearn.linear_model import LogisticRegression
 $$
 h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+⋯+\theta_nx_n=\theta^{\mathrm{T}}x
 $$
-但这个 **预测函数** 的输出是个没有范围的连续值，并不适合分类问题。因此在 **逻辑回归** 中使用了：
+但这个 **预测函数** 的输出是个没有范围的连续值，并不适合分类问题。因此在 **逻辑回归** 中使用了
 $$
 h_\theta(x)=g(\theta^\mathrm{T}x) \\
 g(z)=\frac1{1+e^{−z}}
 $$
-来作 **预测函数**，其中 $g(z)$ 被称为 **Sigmoid** 函数，其python实现为：
+来作 **预测函数**，其中 $g(z)$ 被称为 **Sigmoid** 函数，其 python 实现为
 
 ```python
 import numpy as np
@@ -108,7 +108,7 @@ $$
 
 ### 损失函数改进
 
-如果沿用 **线性回归** 中的损失函数，我们会得到类似下图的曲线（ 单个特征 $\theta_0$ 所对应的 **损失函数** 曲线 ）：
+如果沿用 **线性回归** 中的损失函数，我们会得到类似下图的曲线（ 单个特征 $\theta_0$ 所对应的 **损失函数** 曲线 ）
 
 <img src="img/old_cost_function.jpeg" width=700 />
 
@@ -128,7 +128,7 @@ $$
 
 我们知道，逻辑回归的定义，假设我们的样本输出是 $0$ 或者 $1$ 两类
 
-那么我们有：
+那么我们有
 $$
 \begin{align}
 & P(y=1|x,\theta)=h_\theta(x) \\
@@ -136,7 +136,7 @@ $$
 \end{align}
 $$
 
-把两种情况和一起就是如下公式：
+把两种情况和一起就是如下公式
 $$
 P(y|x,\theta)=h_\theta(x)^y(1−h_\theta(x))^{1−y}
 $$
@@ -151,7 +151,7 @@ $$
 J(\theta)=−\frac1m\ln L(\theta)=
 −\frac1m\sum\limits_{i=1}^m \left[y^{(i)}\log(h_\theta(x^{(i)}))+(1−y^{(i)})\log(1−h_\theta(x^{(i)})) \right]
 $$
-其python实现为：
+其 python 实现为
 
 ```python
 import numpy as np
@@ -178,7 +178,7 @@ $$
 
 } 
 
-求导后得到：
+求导后得到
 
 **Repeat** { 
 $$
@@ -193,21 +193,21 @@ $$
 
 ### 推导过程
 
-考虑：
+考虑
 $$
 h_\theta=\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}}
 $$
-则：
+则
 $$
 \begin{align*}
   	&y^{(i)}\log(h_\theta(x^{(i)}))+(1−y^{(i)})\log(1−h_\theta(x^{(i)})) \\
-=\; &y^{(i)}\log(\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}})
+=\ &y^{(i)}\log(\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}})
 			+ (1−y^{(i)})\log(1−\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}}) \\
-=\; &-y^{(i)}\log(1+e^{-\theta^\mathrm{T}x^{(i)}})
+=\ &-y^{(i)}\log(1+e^{-\theta^\mathrm{T}x^{(i)}})
 			- (1−y^{(i)})\log(1+e^{\theta^\mathrm{T}x^{(i)}})
 \end{align*}
 $$
-所以：
+所以
 $$
 \begin{align*}
 \frac{\partial}{\partial\theta_j} J(\theta)
@@ -453,7 +453,7 @@ y_test [1 0 1 1 1 0 1 1 1 0 1 0 0 0 1 1 0 0 1 0]
 
 # 小结
 
-逻辑回归假设数据服从**伯努利分布**，在线性回归的基础上，套了一个二分类的Sigmoid函数，使用**极大似然法**来推导出损失函数，用梯度下降法优化损失函数的一个**判别式的分类算法**
+逻辑回归假设数据服从**伯努利分布**，在线性回归的基础上，套了一个二分类的 Sigmoid 函数，使用**极大似然法**来推导出损失函数，用梯度下降法优化损失函数的一个**判别式的分类算法**
 
 逻辑回归的优缺点有以下几点
 
