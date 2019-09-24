@@ -14,7 +14,7 @@
 	- Scipy
 	- Matplotlib
 - Machine Learning
-	- Surprised Learning
+	- Supervised Learning
 		- Percetron Learning Algorithm (PLA)
 		- Linear Regression
 		- Logistic Regression
@@ -25,6 +25,6 @@
 		- Naive Bayes Classifiers
 		- Decision Trees
 		- Ensemble Learning
-	- UnSurprised Learning
+	- UnSupervised Learning
 		- k-Means Clustering (k-Means)
 		- Principal Component Analysis (PCA)
