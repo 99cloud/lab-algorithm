@@ -8,7 +8,7 @@
 - [K-Means 介绍](#K-Means 介绍)
 	- [K-Means 原理](#K-Means 原理)
 	- [K-Means 步骤](#K-Means 步骤)
-	- [K-Means 步骤](#)
+	- [K-Means 步骤](#K-Means 步骤)
 	- [K 值的确定](#K 值的确定)
 	- [手肘法](#手肘法)
 	- [K-Means 与 KNN](#K-Means 与 KNN)
