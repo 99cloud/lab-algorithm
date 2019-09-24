@@ -40,7 +40,7 @@ PLA全称是Perceptron Linear Algorithm，即线性感知机算法，属于一�
 
 假设训练数据集是线性可分的，感知机学习的目标是求得一个能够将训练数据集**正实例点和负实例点完全正确分开的分离超平面**。如果是非线性可分的数据，则最后无法获得超平面
 
-<img src="img/perceptron_1.png" alt="image" style="zoom:40%;" />
+<img src="img/perceptron_1.png" width=400 />
 
 ## 点到线的距离
 
@@ -66,7 +66,7 @@ $$
 
 # 感知机模型
 
-<img src="img/perceptron_2.png" alt="image" style="zoom:90%;" />
+<img src="img/perceptron_2.png" width=300 />
 
 感知机从输入空间到输出空间的模型如下：
 $$
@@ -192,13 +192,13 @@ $$
 
 我们大概从下图看下感知机的训练过程
 
-线性可分的过程：
+线性可分的过程
 
-<img src="img/perceptron_3.gif" alt="image" style="zoom:90%;" />
+<img src="img/perceptron_3.gif" width=400 />
 
-线性不可分的过程：
+线性不可分的过程
 
-<img src="img/perceptron_4.gif" alt="image" style="zoom:90%;" />
+<img src="img/perceptron_4.gif" width=400 />
 
 # 小结
 
