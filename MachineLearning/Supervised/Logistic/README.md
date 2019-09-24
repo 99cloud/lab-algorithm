@@ -199,17 +199,17 @@ h_\theta=\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}}
 $$
 则：
 $$
-\begin{align}
+\begin{align*}
   	&y^{(i)}\log(h_\theta(x^{(i)}))+(1−y^{(i)})\log(1−h_\theta(x^{(i)})) \\
 =\; &y^{(i)}\log(\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}})
 			+ (1−y^{(i)})\log(1−\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}}) \\
 =\; &-y^{(i)}\log(1+e^{-\theta^\mathrm{T}x^{(i)}})
 			- (1−y^{(i)})\log(1+e^{\theta^\mathrm{T}x^{(i)}})
-\end{align}
+\end{align*}
 $$
 所以：
 $$
-\begin{align}
+\begin{align*}
 \frac{\partial}{\partial\theta_j} J(\theta)
 & = \frac{\partial}{\partial\theta_j}
 	   \left[−\frac1m\sum\limits_{i=1}^m(-y^{(i)}\log(1+e^{-\theta^\mathrm{T}x^{(i)}})
@@ -236,7 +236,7 @@ $$
 		 (y^{(i)}-\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}})x_j^{(i)} \\
 & = −\frac1m\sum\limits_{i=1}^m[y^{(i)}-h_\theta(x^{(i)})]x_j^{(i)} \\
 & = \frac1m\sum\limits_{i=1}^m[h_\theta(x^{(i)})-y^{(i)}]x_j^{(i)}
-\end{align}
+\end{align*}
 $$
 虽然得到的梯度下降算法表面上看上去与线性回归的梯度下降算法一样，但是这里的 $h_\theta(x)=g(\theta^\mathrm{T}x)$ 与线性回归中不同，所以实际上是不一样的
 
@@ -388,7 +388,8 @@ def costReg(theta, X, y, learningRate):
 
 Repeat until convergence { 
 $$
-\begin{align}\theta_0 &:=\theta_0 	-\alpha\frac1m\sum\limits_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)} \\\theta_j &:=\theta_j 	-\alpha\frac1m\sum\limits_{i=1}^m \left[(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}	+\frac{\lambda}{m}\theta_j \right] \qquad j=1,2,\cdots,n\end{align}
+\begin{align}\theta_0 &:=\theta_0 	-\alpha\frac1m\sum\limits_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)} \\
+\theta_j &:=\theta_j 	-\alpha\frac1m\sum\limits_{i=1}^m \left[(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}	+\frac{\lambda}{m}\theta_j \right] \qquad j=1,2,\cdots,n\end{align}
 $$
 } 
 
@@ -418,7 +419,7 @@ def create_data():
 
 <img src="img/Sklearn_Logistic.png" width=350/>
 
-具体示例可详见 【[logistic_regression.ipynb](https://github.com/FDUJiaG/PyML/blob/master/Supervise/Logistic/logistic_regression.ipynb)】
+具体示例可详见 【[logistic_regression.ipynb](https://github.com/99cloud/lab-algorithm/blob/master/MachineLearning/Supervised/Logistic/logistic_regression.ipynb)】
 
 在自己的测试中，选取 $80\%$ 的样本点为训练集，选取 $20%$ 的点为测试集
 
