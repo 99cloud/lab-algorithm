@@ -62,15 +62,17 @@ from sklearn.linear_model import LogisticRegression
 
 ## 预测函数
 
-对于 **线性回归** 我们的 **预测函数** 为：
+对于 **线性回归** 我们的 **预测函数** 为
 $$
 h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+⋯+\theta_nx_n=\theta^{\mathrm{T}}x
 $$
+
 但这个 **预测函数** 的输出是个没有范围的连续值，并不适合分类问题。因此在 **逻辑回归** 中使用了
 $$
 h_\theta(x)=g(\theta^\mathrm{T}x) \\
 g(z)=\frac1{1+e^{−z}}
 $$
+
 来作 **预测函数**，其中 $g(z)$ 被称为 **Sigmoid** 函数，其 python 实现为
 
 ```python
@@ -89,7 +91,7 @@ Sigmoid 函数处处可导，导数很简洁 $S'(x)=S(x)(1−S(x))$ ，它的导
 
 <img src="img/sigmoid2.png" width=300 />
 
-这样就可以将 **预测函数** 解释为在给定 $x$ 及参数 $\theta$ 的情况下 $y=1$ （ 属于这个分类 ）的概率：
+这样就可以将 **预测函数** 解释为在给定 $x$ 及参数 $\theta$ 的情况下 $y=1$ （ 属于这个分类 ）的概率
 $$
 h_\theta(x)=\mathrm{P}(y=1|x;\theta)
 $$
@@ -107,6 +109,7 @@ $$
 ## 损失函数
 
 ### 损失函数改进
+
 
 如果沿用 **线性回归** 中的损失函数，我们会得到类似下图的曲线（ 单个特征 $\theta_0$ 所对应的 **损失函数** 曲线 ）
 
@@ -129,6 +132,7 @@ $$
 我们知道，逻辑回归的定义，假设我们的样本输出是 $0$ 或者 $1$ 两类
 
 那么我们有
+
 $$
 \begin{align}
 & P(y=1|x,\theta)=h_\theta(x) \\
@@ -142,7 +146,7 @@ P(y|x,\theta)=h_\theta(x)^y(1−h_\theta(x))^{1−y}
 $$
 得到了的概率分布函数表达式，我们就可以用似然函数最大化来求解我们需要的模型系数
 
-最大似然函数：
+最大似然函数
 $$
 L(\theta)=\prod\limits_{i=1}^m(h_\theta(x^{(i)}))^{y^{(i)}}(1−h_\theta(x^{(i)}))^{1−y^{(i)}}
 $$
@@ -151,6 +155,7 @@ $$
 J(\theta)=−\frac1m\ln L(\theta)=
 −\frac1m\sum\limits_{i=1}^m \left[y^{(i)}\log(h_\theta(x^{(i)}))+(1−y^{(i)})\log(1−h_\theta(x^{(i)})) \right]
 $$
+
 其 python 实现为
 
 ```python
@@ -168,7 +173,7 @@ det cost(theta, X, y):
 
 ### 算法
 
-在得到这样一个损失函数以后，我们便可以用梯度下降算法来求得能使损失函数最小的参数了，算法为：
+在得到这样一个损失函数以后，我们便可以用梯度下降算法来求得能使损失函数最小的参数了，算法为
 
 **Repeat** {
 $$
@@ -208,6 +213,7 @@ $$
 \end{align*}
 $$
 所以
+
 $$
 \begin{align*}
 \frac{\partial}{\partial\theta_j} J(\theta)
@@ -258,7 +264,7 @@ $$
 
 如果我们有非常多的特征，我们通过学习得到的假设可能能够非常好地适应训练集（损失函数可能几乎为 $0$ ），但是可能会不能推广到新的数据
 
-下图是一个**回归问题**的例子：
+下图是一个**回归问题**的例子
 
 <img src="img/LR_Fit.jpg" width=500 />
 
@@ -268,7 +274,7 @@ $$
 
 - 而中间的模型似乎最合适
 
-**分类问题**中也存在这样的问题：
+**分类问题**中也存在这样的问题
 
 <img src="img/FL_Fit.jpg" width=450 />
 
@@ -292,7 +298,7 @@ $$
 
 我们要做的便是修改损失函数，在其中 $\theta_3$ 和 $\theta_4$ 设置一点惩罚，这样做的话，我们在尝试最小化代价时也需要将这个惩罚纳入考虑中，并最终导致选择较小一些的 $\theta_3$ 和 $\theta_4$ 
 
-修改后的损失函数如下：
+修改后的损失函数如下
 $$
 \min\limits_\theta\frac1{2m} \left[\sum\limits_{i=1}^m((h_\theta(x^{(i)})-y^{(i)})^2
 +1000{\theta_3}^2+10000{\theta_4}^2) \right]
@@ -317,7 +323,7 @@ $$
 
 对于[线性回归](https://fdujiag.github.io/PyML/Supervise/LR/)的求解，推导过两种学习算法：一种基于梯度下降，一种基于正规方程
 
-正则化线性回归的损失函数为：
+正则化线性回归的损失函数为
 $$
 J(\theta)=\min\limits_\theta\frac1{2m} 
 	\left[\sum\limits_{i=1}^m((h_\theta(x^{(i)})-y^{(i)})^2
@@ -337,14 +343,14 @@ $$
 $$
 } Repeat
 
-对上面的算法中 $j=1,2,\cdots,n$ 时的更新式子进行调整可得：
+对上面的算法中 $j=1,2,\cdots,n$ 时的更新式子进行调整可得
 $$
 \theta_j :=\theta_j(1-\alpha\frac{\lambda}{m}) 
 	-\alpha\frac1m\sum\limits_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}
 $$
 可以看出，正则化线性回归的梯度下降算法的变化在于，每次都在原有算法更新规则的基础上令 $\theta$ 值减少了一个额外的值
 
-我们同样也可以利用正规方程来求解正则化线性回归模型，方法如下所示：
+我们同样也可以利用正规方程来求解正则化线性回归模型，方法如下所示
 $$
 \theta = \left(
 X^\mathrm{T}X+\lambda
@@ -364,7 +370,7 @@ $$
 
 ## 正则化逻辑回归
 
-我们给代价函数增加一个正则化的表达式，得到新的损失函数：
+我们给代价函数增加一个正则化的表达式，得到新的损失函数
 $$
 J(\theta)=
 	\frac1m\sum\limits_{i=1}^m\left[-y^{(i)}\log(h_\theta(x^{(i)})) - (1−y^{(i)})\log(1−h_\theta(x^{(i)}))\right]
@@ -384,7 +390,7 @@ def costReg(theta, X, y, learningRate):
     return np.sum(first - second) / (len(X)) + reg
 ```
 
-要最小化该代价函数，通过求导，得出梯度下降算法为：
+要最小化该代价函数，通过求导，得出梯度下降算法为
 
 Repeat until convergence { 
 $$
