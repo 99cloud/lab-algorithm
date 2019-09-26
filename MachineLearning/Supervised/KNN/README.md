@@ -66,6 +66,7 @@ KNN做回归和分类的主要区别在于最后做预测时候的决策方式�
 
 <img src='img/knn.png' width=250 >
 
+
 ## KNN算法描述
 
 输入：训练数据集 $T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$，其中 $x_i\in\mathcal{X}$ 为实例的特征向量，$y_i\in \{c_1,c_2,\cdots,c_m\}$ 为实例的类别；实例特征向量 $x$ 
@@ -149,6 +150,7 @@ kd 树是一种对 $n$ 维空间的实例点进行存储，以便对其进行快
 搜索过程，大致如下：
 
 <img src='img\kd_tree_search.jpg' width=500>
+
 
 ### kd树预测
 

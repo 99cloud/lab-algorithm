@@ -103,6 +103,7 @@ $$
 
 有意思的是对于这样的问题，总有一个与之对应问题（ **对偶问题** ），并且在特定条件下的解与原问题相同
 
+
 要得到 **对偶问题**，我们只需要交换 $\min,\max$ 的顺序，考虑函数
 $$
 \theta_\mathcal{D}(\alpha,\beta) = \min\limits_\omega\mathcal{L}(\omega,\alpha,\beta)
