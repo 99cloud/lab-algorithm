@@ -17,7 +17,7 @@
 	- [特征标准化](#特征标准化)
 	- [多项式回归](#多项式回归)
 - [示例](#示例)
-	- [sklearn.linear_model 方法](#sklearn.linear_model 方法)
+	- [sklearn.linear_model方法](#sklearn.linear_model方法)
 	- [梯度下降方法](#梯度下降方法)
 	- [正规方程方法](#正规方程方法)
 - [小结](#小结)
@@ -352,7 +352,7 @@ def load_dataset(n):
 
 比较发现，还是官方的包比较厉害 \^_\^
 
-## sklearn.linear_model 方法
+## sklearn.linear_model方法
 
 ```python
 Data Shape (100, 1) (100,)
