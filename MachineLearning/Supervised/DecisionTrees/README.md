@@ -361,6 +361,6 @@ $$
 
 
 
-【[返回顶部](#朴素贝叶斯)】
+【[返回顶部](#决策树)】
 
 【[返回主仓](https://github.com/99cloud/lab-algorithm)】
