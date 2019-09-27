@@ -1,27 +1,27 @@
-# K 近邻算法（KNN）
+# K近邻算法（KNN）
 
 【[返回主仓](https://github.com/99cloud/lab-algorithm)】
 
 ## Catalog
 
 - [说明](#说明)
-- [KNN 介绍](#KNN 介绍)
-	- [KNN 原理](#KNN 原理)
-	- [KNN 算法描述](#KNN 算法描述)
+- [KNN介绍](#KNN介绍)
+	- [KNN原理](#KNN原理)
+	- [KNN算法描述](#KNN算法描述)
 	- [KNN的基本要素](#KNN的基本要素)
 		- [距离度量](#距离度量)
-		- [k 值的选择](#k 值的选择)
+		- [k值的选择](#k值的选择)
 		- [分类决策规则](#分类决策规则)
-	- [kd 树](#kd 树)
-		- [构造 kd 树](#构造 kd 树)
-		- [kd 树搜索最近邻](#kd 树搜索最近邻)
-		- [kd 树预测](#kd 树预测)
-- [KNN 实现](#KNN 实现)
-	- [KNN 在 sklearn 中的使用](#KNN 在 sklearn 中的使用)
-	- [KNN 基础版实现](#KNN 基础版实现)
-	- [KdTree 版本实现](#KdTree 版本实现)
-		- [构建 KdTree](#构建 KdTree)
-		- [KdTree 搜索最近邻和预测](#KdTree 搜索最近邻和预测)
+	- [kd树](#kd树)
+		- [构造kd树](#构造kd树)
+		- [kd树搜索最近邻](#kd树搜索最近邻)
+		- [kd树预测](#kd树预测)
+- [KNN实现](#KNN实现)
+	- [KNN在sklearn中的使用](#KNN在sklearn中的使用)
+	- [KNN基础版实现](#KNN基础版实现)
+	- [KdTree版本实现](#KdTree版本实现)
+		- [构建KdTree](#构建KdTree)
+		- [KdTree搜索最近邻和预测](#KdTree搜索最近邻和预测)
 - [小结](#小结)
 
 # 说明
@@ -33,10 +33,11 @@
 **主要使用的包**
 
 ```python
+import time
 import numpy as np
-from sklearn.cluster import KMeans
-from sklearn.manifold import TSNE
-from sklearn import datasets
+from sklearn.model_selection import train_test_split
+from sklearn.datasets import load_iris
+import matplotlib.pyplot as plt
 ```
 
 ## 文件
@@ -49,7 +50,7 @@ from sklearn import datasets
 | data_generater.py | 随机生成点                                                   |
 | plot.py           | 画图呈现                                                     |
 
-# KNN 介绍
+# KNN介绍
 
 ## 前言
 
@@ -59,13 +60,13 @@ K 近邻法（K-nearest neighbors, KNN）是一种很基本的机器学习方法
 
 KNN做回归和分类的主要区别在于最后做预测时候的决策方式不同， **KNN 做分类预测时，一般是选择多数表决法** ，即训练集里和预测的样本特征最近的 $k$ 个样本，预测为里面有最多类别数的类别， 而 **KNN 做回归时，一般是选择平均法** ，即最近的 $k$ 个样本的样本输出的平均值作为回归预测值，由于两者区别不大，所以 KNN 的分类方法思想对 KNN 的回归方法也适用，但主要介绍的是 KNN 的分类问题
 
-## KNN 原理
+## KNN原理
 
 给定一个训练集，对新输入的实例，在训练集中找到与该实例最邻近的k个实例，这 $k$ 个实例的多数属于某个类，我们就把该输入实例分为这个类
 
 <img src='img/knn.png' width=250 >
 
-## KNN 算法描述
+## KNN算法描述
 
 输入：训练数据集 $T=\{(x_1,y_1),(x_2,y_2),\cdots,(x_N,y_N)\}$，其中 $x_i\in\mathcal{X}$ 为实例的特征向量，$y_i\in \{c_1,c_2,\cdots,c_m\}$ 为实例的类别；实例特征向量 $x$ 
 
@@ -106,7 +107,7 @@ KNN做回归和分类的主要区别在于最后做预测时候的决策方式�
 
 从上式可以看出，欧氏距离和曼哈顿距离分别是闵可夫斯基距离的 $(p=2,p=1)$ 特殊情况
 
-### k 值的选择
+### k值的选择
 
 对于 $k$ 值的选择，没有一个固定的经验，一般根据样本的分布，选择一个较小的值， **然后通过交叉验证选择一个合适的** $k$ **值**
 
@@ -119,13 +120,13 @@ KNN做回归和分类的主要区别在于最后做预测时候的决策方式�
 
 对于分类决策规则，一般都是使用前面提到的多数表决法
 
-## kd 树
+## kd树
 
 KNN 算法最简单的实现方式，就是计算输入实例和所有训练实例的距离，然后进行排序，取前 $k$ 个，进行分类，但是训练集特别大的时候，这种方式非常耗时，不可行，下面介绍 kd 树的方式，kd 树是通过减少输入实例和训练实例的计算次数来达到优化的目的
 
 kd 树算法包括三步，第一步是建树，第二部是搜索最近邻，最后一步是预测
 
-### 构造 kd 树
+### 构造kd树
 
 kd 树是一种对 $n$ 维空间的实例点进行存储，以便对其进行快速检索的树形结构，kd 树是二叉树，构造 kd 树相当于不断的用垂直于坐标轴的超平面将 $n$ 维空间进行划分，构成一系列的 $n$ 维超矩阵区域
 
@@ -135,7 +136,7 @@ kd 树是一种对 $n$ 维空间的实例点进行存储，以便对其进行快
 
 <img src='img/kd_tree_eg.png' width=600>
 
-### kd 树搜索最近邻
+### kd树搜索最近邻
 
 当我们生成 kd 树以后，就可以去预测测试集里面的样本目标点了，预测的过程如下：
 
@@ -149,13 +150,13 @@ kd 树是一种对 $n$ 维空间的实例点进行存储，以便对其进行快
 
 <img src='img\kd_tree_search.jpg' width=500>
 
-### kd 树预测
+### kd树预测
 
 有了 kd 树搜索最近邻的办法，kd 树的预测就很简单了，在 kd 树搜索最近邻的基础上，**我们选择到了第一个最近邻样本，就把它置为已选， 在第二轮中，我们忽略置为已选的样本，重新选择最近邻，这样跑 k 次，就得到了目标的 k 个最近邻** ，然后根据多数表决法，如果是 KNN 分类，预测为 k 个最近邻里面有最多类别数的类别，如果是 KNN 回归，用 k 个最近邻样本输出的平均值作为回归预测值
 
-# KNN 实现
+# KNN实现
 
-## KNN 在 sklearn 中的使用
+## KNN在sklearn中的使用
 
 kNN 在 sklearn 中是放在 sklearn.neighbors 的包中的，分类器 KNeighborsClassifier 的主要参数是
 
@@ -170,7 +171,7 @@ kNN 在 sklearn 中是放在 sklearn.neighbors 的包中的，分类器 KNeighbo
 
 比较重要的应该属 n_neighbors，weights
 
-## KNN 基础版实现
+## KNN基础版实现
 
 ```python
 def fit(self, X_train, y_train):
@@ -197,9 +198,9 @@ def predict(self, X):
 
 接口设计都是按照 sklearn 的样子设计的，fit 方法其实主要用来接收参数了，没有进行任何的处理，所有的操作都在 predict 中，这就会导致，我们对每个点预测的时候，时间消耗比较大
 
-## KdTree 版本实现
+## KdTree版本实现
 
-### 构建 KdTree
+### 构建KdTree
 
 ```python
 # 建立kdtree
@@ -219,7 +220,7 @@ def create(self, dataSet, label, depth=0):
     return None
 ```
 
-### KdTree 搜索最近邻和预测
+### KdTree搜索最近邻和预测
 
 ```python
 # 搜索kdtree的前count个近的点
@@ -289,6 +290,6 @@ def search(self, x, count = 1):
 
 
 
-【[返回顶部](#K 近邻算法（KNN）)】
+【[返回顶部](#K近邻算法（KNN）)】
 
 【[返回主仓](https://github.com/99cloud/lab-algorithm)】
