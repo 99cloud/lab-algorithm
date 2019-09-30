@@ -1,6 +1,6 @@
 # lab-algorithm
 
-基于Python 3.x，对于常规定算法、包以及在实际问题中可能遇到的工具进行简单的整理
+Simple collation of conventional algorithms, packages, and tools which may be encountered in practical problems, based on Python 3.x
 
 ## Catalog
 
@@ -28,3 +28,4 @@
 	- UnSupervised Learning
 		- k-Means Clustering (k-Means)
 		- Principal Component Analysis (PCA)
+		- Expectation Maximizition (EM)
