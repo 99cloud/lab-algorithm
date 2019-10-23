@@ -29,3 +29,12 @@ Simple collation of conventional algorithms, packages, and tools which may be en
 		- k-Means Clustering (k-Means)
 		- Principal Component Analysis (PCA)
 		- Expectation Maximizition (EM)
+
+- Aliyun API
+	- OCR
+		- Business Card
+		- Bank Card
+	- Face Recognition
+		- Detect
+		- Attribute
+		- Verify
