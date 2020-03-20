@@ -14,14 +14,15 @@
 
 	```console
 	$ ls
-	README.md                             mglearn_for_supervised_learning       requirements.txt                      tree.dot
-    cache                                 mglearn_for_supervised_learning.ipynb tmp
-    images                                mytree.dot                            tmp.png
+    README.md                               mglearn_for_supervised_learning.ipynb   preamble.py                             tree.dot
+    cache                                   mglearn_for_unsupervised_learning       requirements.txt
+    images                                  mglearn_for_unsupervised_learning.ipynb tmp
+    mglearn_for_supervised_learning         mytree.dot                              tmp.png
 
 	$ pip install -r requirements.txt
 	```
 
-1. 使用 `jupyter notebook` 查看 `mglearn_for_supervised_learning.ipynb` 文档，最后 Ctrl + C 退出 
+1. 使用 `jupyter notebook` 查看 `mglearn_for_supervised_learning.ipynb` 和 `mglearn_for_unsupervised_learning.ipynb` 文档，最后 Ctrl + C 退出 
 
     ```console
     $ jupyter notebook
@@ -30,4 +31,4 @@
     关闭服务 (y/[n])y
     ```
 
-1. 或者直接查看 [Markdown 文档](https://github.com/99cloud/lab-algorithm/tree/master/MachineLearning/Mglearn/mglearn_for_supervised_learning/mglearn_for_supervised_learning.md)
+1. 或者直接查看文档 【[监督学习](https://github.com/99cloud/lab-algorithm/tree/master/MachineLearning/Mglearn/mglearn_for_supervised_learning/mglearn_for_supervised_learning.md)】和【[非监督学习](https://github.com/99cloud/lab-algorithm/tree/master/MachineLearning/Mglearn/mglearn_for_supervised_learning/mglearn_for_unsupervised_learning.md)】
