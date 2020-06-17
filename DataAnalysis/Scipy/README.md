@@ -63,7 +63,7 @@ p0 = [7, 0.2, 0]                        # 第一次猜测的函数拟合参数
 plsq = leastsq(residuals, p0, args=(y1, x))
 
 print(u"真实参数:", [A, k, theta])
-print(u"拟合参数", plsq[0])  # 实验数据拟合后的参数
+print(u"拟合参数:", plsq[0])  # 实验数据拟合后的参数
 
 pl.plot(x, y0, label=u"真实数据")
 pl.plot(x, y1, label=u"带噪声的实验数据")

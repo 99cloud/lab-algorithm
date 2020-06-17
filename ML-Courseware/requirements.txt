@@ -1,0 +1,11 @@
+jupyter
+numpy
+matplotlib
+scipy
+scikit-learn
+datetime
+openpyxl
+xlrd
+mglearn
+graphviz
+seaborn

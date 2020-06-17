@@ -26,5 +26,5 @@ def main():
     print("Train Data's Shape:", train[0].shape, "\nTrain Label:", train[1])
 
 
-if __name__ == "main()":
+if __name__ == "__main__":
     main()

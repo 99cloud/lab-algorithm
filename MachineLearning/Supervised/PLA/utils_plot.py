@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 from matplotlib.colors import ListedColormap
 import numpy as np
 
+
 def plot_decision_regions(model, X, y, resolution=0.02):
     """
     拟合效果可视化

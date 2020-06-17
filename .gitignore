@@ -1,2 +1,19 @@
+# Mac
 .DS_Store
+
+# Python
 .ipynb_checkpoints
+.idea
+
+# MV
+webcam.mov
+
+# preknowledge
+preknowledge
+
+# Others
+k-means-mglearn.py
+id-card-verify.py
+html/
+Face_Recognition _on_Olivetti/
+

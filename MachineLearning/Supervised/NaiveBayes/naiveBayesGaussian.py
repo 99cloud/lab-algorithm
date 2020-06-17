@@ -3,6 +3,7 @@ from sklearn.datasets import load_iris
 from sklearn.model_selection import train_test_split
 from scipy.stats import norm
 
+
 class GaussianNaiveBayes(object):
     def __init__(self):
         self.model = None
@@ -48,6 +49,7 @@ class GaussianNaiveBayes(object):
                 right += 1
 
         return right / float(len(X_test))
+
 
 if __name__ == "__main__":
     iris = load_iris()

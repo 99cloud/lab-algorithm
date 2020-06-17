@@ -2,12 +2,10 @@ import numpy as np
 from word_utils import *
 
 
-
 class NaiveBayesBase(object):
 
     def __init__(self):
         pass
-
 
     def fit(self, trainMatrix, trainCategory):
         '''
@@ -45,7 +43,6 @@ class NaiveBayesBase(object):
         self.p0Vect = np.log(p0Num / p0Denom)
         return self
 
-
     def predict(self, testX):
         '''
         朴素贝叶斯分类器
@@ -65,6 +62,7 @@ class NaiveBayesBase(object):
             return 1
         else:
             return 0
+
 
 def loadDataSet():
     '''数据加载函数。这里是一个小例子'''
