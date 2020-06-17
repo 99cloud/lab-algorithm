@@ -63,14 +63,18 @@ from sklearn.linear_model import LogisticRegression
 ## 预测函数
 
 对于 **线性回归** 我们的 **预测函数** 为
+
 $$
 h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+⋯+\theta_nx_n=\theta^{\mathrm{T}}x
 $$
 
 但这个 **预测函数** 的输出是个没有范围的连续值，并不适合分类问题。因此在 **逻辑回归** 中使用了
+
 $$
-h_\theta(x)=g(\theta^\mathrm{T}x) \\
-g(z)=\frac1{1+e^{−z}}
+\begin{aligned}
+h_\theta(x) &= g(\theta^\mathrm{T}x) \\
+g(z) &= \frac1{1+e^{−z}}
+\end{aligned}
 $$
 
 来作 **预测函数**，其中 $g(z)$ 被称为 **Sigmoid** 函数，其 python 实现为
@@ -134,10 +138,10 @@ $$
 那么我们有
 
 $$
-\begin{align}
+\begin{aligned}
 & P(y=1|x,\theta)=h_\theta(x) \\
 & P(y=0|x,\theta)=1−h_\theta(x)
-\end{align}
+\end{aligned}
 $$
 
 把两种情况和一起就是如下公式
@@ -145,6 +149,7 @@ $$
 $$
 P(y|x,\theta)=h_\theta(x)^y(1−h_\theta(x))^{1−y}
 $$
+
 得到了的概率分布函数表达式，我们就可以用似然函数最大化来求解我们需要的模型系数
 
 最大似然函数
@@ -152,7 +157,9 @@ $$
 $$
 L(\theta)=\prod\limits_{i=1}^m(h_\theta(x^{(i)}))^{y^{(i)}}(1−h_\theta(x^{(i)}))^{1−y^{(i)}}
 $$
+
 损失函数就是**对数似然函数基于** $\mathbf{m}$ **个均值的负值**
+
 $$
 J(\theta)=−\frac1m\ln L(\theta)=
 −\frac1m\sum\limits_{i=1}^m \left[y^{(i)}\log(h_\theta(x^{(i)}))+(1−y^{(i)})\log(1−h_\theta(x^{(i)})) \right]
@@ -178,9 +185,11 @@ det cost(theta, X, y):
 在得到这样一个损失函数以后，我们便可以用梯度下降算法来求得能使损失函数最小的参数了，算法为
 
 **Repeat** {
+
 $$
 \theta_j:=\theta_j−\alpha\frac{\partial}{\partial\theta_j}J(\theta)
 $$
+
 (**simultaneously update all** $\theta_j$) 
 
 } 
@@ -188,10 +197,12 @@ $$
 求导后得到
 
 **Repeat** { 
+
 $$
 \theta_j:=\theta_j
 −\alpha\frac1m\sum\limits_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}
 $$
+
 (**simultaneously update all** $\theta_j$ )
 
 } 
@@ -201,23 +212,27 @@ $$
 ### 推导过程
 
 考虑
+
 $$
 h_\theta=\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}}
 $$
+
 则
+
 $$
-\begin{align*}
+\begin{aligned}
   	&y^{(i)}\log(h_\theta(x^{(i)}))+(1−y^{(i)})\log(1−h_\theta(x^{(i)})) \\
 =\ &y^{(i)}\log(\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}})
 			+ (1−y^{(i)})\log(1−\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}}) \\
 =\ &-y^{(i)}\log(1+e^{-\theta^\mathrm{T}x^{(i)}})
 			- (1−y^{(i)})\log(1+e^{\theta^\mathrm{T}x^{(i)}})
-\end{align*}
+\end{aligned}
 $$
+
 所以
 
 $$
-\begin{align*}
+\begin{aligned}
 \frac{\partial}{\partial\theta_j} J(\theta)
 & = \frac{\partial}{\partial\theta_j}
 	   \left[−\frac1m\sum\limits_{i=1}^m(-y^{(i)}\log(1+e^{-\theta^\mathrm{T}x^{(i)}})
@@ -244,8 +259,9 @@ $$
 		 (y^{(i)}-\frac{1}{1+e^{-\theta^\mathrm{T}x^{(i)}}})x_j^{(i)} \\
 & = −\frac1m\sum\limits_{i=1}^m[y^{(i)}-h_\theta(x^{(i)})]x_j^{(i)} \\
 & = \frac1m\sum\limits_{i=1}^m[h_\theta(x^{(i)})-y^{(i)}]x_j^{(i)}
-\end{align*}
+\end{aligned}
 $$
+
 虽然得到的梯度下降算法表面上看上去与线性回归的梯度下降算法一样，但是这里的 $h_\theta(x)=g(\theta^\mathrm{T}x)$ 与线性回归中不同，所以实际上是不一样的
 
 另外，在运行梯度下降算法之前，进行特征缩放依旧是非常必要的
@@ -324,7 +340,7 @@ $$
 
 ## 正则化线性回归
 
-对于[线性回归](https://fdujiag.github.io/PyML/Supervise/LR/)的求解，推导过两种学习算法：一种基于梯度下降，一种基于正规方程
+对于 [线性回归](https://fdujiag.github.io/PyML/Supervise/LR/) 的求解，推导过两种学习算法：一种基于梯度下降，一种基于正规方程
 
 正则化线性回归的损失函数为
 $$
@@ -335,15 +351,17 @@ $$
 使用梯度下降法令这个损失函数最小化时，因为我们未对 $\theta_0$ 进行正则化，所以梯度下降算法将分两种情形：
 
 Repeat until convergence {
+
 $$
-\begin{align}
+\begin{aligned}
 \theta_0 &:=\theta_0 
 	-\alpha\frac1m\sum\limits_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)} \\
 \theta_j &:=\theta_j 
 	-\alpha\frac1m\sum\limits_{i=1}^m \left[(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}
 	+\frac{\lambda}{m}\theta_j \right]
-\end{align}
+\end{aligned}
 $$
+
 } Repeat
 
 对上面的算法中 $j=1,2,\cdots,n$ 时的更新式子进行调整可得
@@ -352,6 +370,7 @@ $$
 \theta_j :=\theta_j(1-\alpha\frac{\lambda}{m}) 
 	-\alpha\frac1m\sum\limits_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}
 $$
+
 可以看出，正则化线性回归的梯度下降算法的变化在于，每次都在原有算法更新规则的基础上令 $\theta$ 值减少了一个额外的值
 
 我们同样也可以利用正规方程来求解正则化线性回归模型，方法如下所示
@@ -400,15 +419,16 @@ def costReg(theta, X, y, learningRate):
 
 Repeat until convergence { 
 $$
-\begin{align}\theta_0 &:=\theta_0 	-\alpha\frac1m\sum\limits_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)} \\
-\theta_j &:=\theta_j 	-\alpha\frac1m\sum\limits_{i=1}^m \left[(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}	+\frac{\lambda}{m}\theta_j \right] \qquad j=1,2,\cdots,n\end{align}
+\begin{aligned}\theta_0 &:=\theta_0 	-\alpha\frac1m\sum\limits_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_0^{(i)} \\
+\theta_j &:=\theta_j 	-\alpha\frac1m\sum\limits_{i=1}^m \left[(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}	+\frac{\lambda}{m}\theta_j \right] \qquad j=1,2,\cdots,n\end{aligned}
 $$
-} 
 
-注：
+}
+
+注
 
 1. 看上去同线性回归一样，但是知道 $h_\theta(x)=g(\theta^\mathrm{T}x)$ ，所以与线性回归不同
-2.  $\theta_0$ 不参与其中的任何一个正则化
+1. $\theta_0$ 不参与其中的任何一个正则化
 
 # 示例
 
@@ -465,22 +485,22 @@ y_test [1 0 1 1 1 0 1 1 1 0 1 0 0 0 1 1 0 0 1 0]
 
 # 小结
 
-逻辑回归假设数据服从**伯努利分布**，在线性回归的基础上，套了一个二分类的 Sigmoid 函数，使用**极大似然法**来推导出损失函数，用梯度下降法优化损失函数的一个**判别式的分类算法**
+逻辑回归假设数据服从 **伯努利分布**，在线性回归的基础上，套了一个二分类的 Sigmoid 函数，使用 **极大似然法** 来推导出损失函数，用梯度下降法优化损失函数的一个 **判别式的分类算法**
 
 逻辑回归的优缺点有以下几点
 
 ## 优点
 
 1. 实现简单，广泛的应用于工业问题上
-2. 训练速度较快，分类速度很快
-3. 内存占用少
-4. 便利的观测样本概率分数，可解释性强
+1. 训练速度较快，分类速度很快
+1. 内存占用少
+1. 便利的观测样本概率分数，可解释性强
 
 ## 缺点
 
 1. 当特征空间很大时，逻辑回归的性能不是很好
-2. 一般准确度不太高
-3. 很难处理数据不平衡的问题
+1. 一般准确度不太高
+1. 很难处理数据不平衡的问题
 
 
 
