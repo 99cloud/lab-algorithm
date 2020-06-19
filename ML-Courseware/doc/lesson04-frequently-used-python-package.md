@@ -31,7 +31,7 @@ NumPy 数组 和 原生 Python Array（数组）之间有几个重要的区别
 
 ### ndarray
 
-#### 从 List 到 Array
+#### From List to Array
 
 列成 array-like 结构的数值数据可以通过使用 `array()` 函数转换为数组
 
@@ -49,7 +49,7 @@ In [5]: type(np_lst)
 Out[5]: numpy.ndarray
 ```
 
-#### 数组的数据类型
+#### Data Types of Arrays
 
 ```console
 In [6]: np_lst=np.array(lst, dtype=np.float)
@@ -58,7 +58,7 @@ In [7]: np_lst.dtype
 Out[7]: dtype('float64')
 ```
 
-#### 数组的参数
+#### Parameters of Array
 
 ```console
 In [8]: np_lst.shape        # 行列数
@@ -114,7 +114,7 @@ array([0.01745944, 0.19434248, 0.08223912, 0.04432289, 0.2939484 ,
 
 ### Array Opeartion
 
-#### Array 数学运算
+#### Mathematical Operations of Array
 
 ```console
 In [19]: lst = np.arange(1, 11).reshape([2, 5])
@@ -150,7 +150,7 @@ array([[0.        , 0.69314718, 1.09861229, 1.38629436, 1.60943791],
        [1.79175947, 1.94591015, 2.07944154, 2.19722458, 2.30258509]])
 ```
 
-#### Array 描述性统计
+#### Descriptive Statistics for Array
 
 ```console
 In [26]: lst = np.array([[[1, 2, 3, 4], [4, 5, 6, 7]],
@@ -195,7 +195,7 @@ In [33]: lst.min()
 Out[33]: 1
 ```
 
-#### 数组间操作
+#### Operations between Arrays
 
 ```console
 In [34]: lst1 = np.array([10, 20, 30, 40])
@@ -321,7 +321,7 @@ $$
 \right]
 $$
 
-#### 解线性方程
+#### Solve Linear Equations
 
 ```console
 In [54]: y = np.array([[5], [7]])
@@ -569,7 +569,7 @@ SciPy 函数库在 NumPy 库的基础上增加了众多的数学、科学以及�
 
 **扩展阅读**【[SciPy 官网](https://www.scipy.org/)】
 
-### 非线性方程组求解
+### Solving Nonlinear Equations
 
 optimize 库中的 `fsolve` 函数可以用来对非线性方程组进行求解，它的基本调用形式如下
 
@@ -642,7 +642,7 @@ print('[f1,f2,f3] =', f(result))
 
 由于 `fsolve` 函数在调用函数f时，传递的参数为数组，因此如果直接使用数组中的元素计算的话，计算速度将会有所降低，因此这里先用 `float` 函数将数组中的元素转换为 Python 中的标准浮点数，然后调用标准 math 库中的函数进行运算
 
-### 函数最值
+### Function Maximum
 
 以寻找函数 
 
@@ -723,7 +723,7 @@ print(xmin_global_2)
 [-1.30644]
 ```
 
-### 最小二乘拟合
+### Least Square Fitting
 
 假设有一组实验数据 $(x[i], y[i])$，我们知道它们之间的函数关系 $y = f(x)$，通过这些已知信息，需要确定函数中的一些参数项
 
@@ -881,7 +881,7 @@ Out[13]:
 2020-05-08 -0.521412  0.176260 -0.090847  0.020373  0.047486
 ```
 
-#### DataFrame 基本操作
+#### Basic Operation of DataFrame
 
 ```console
 In [14]: df.head(3)
@@ -963,7 +963,7 @@ min   -0.639606 -1.366236 -1.170642 -1.006177  0.047486
 max    1.149055  2.268671  1.070904  1.895496  1.376240
 ```
 
-#### DataFrame 选择操作
+#### Selection Operations of DataFrame
 
 ```console
 In [22]: type(df["A"])
@@ -1015,7 +1015,7 @@ In [30]: df.iat[1, 4]
 Out[30]: 1.0887371182725154
 ```
 
-#### DataFrame 使用判断截取数据
+#### Data Intercepted by Judgment in DataFrame
 
 ```console
 In [31]: df[df.B > 0][df.A < 0]
@@ -1059,7 +1059,7 @@ Columns: [A, B, C, D, E]
 Index: []
 ```
 
-#### DataFrame 设置值操作
+#### Setting Value Operation in DataFrame
 
 ```console
 In [35]: sl = pd.Series(list(range(10,18)),index=pd.date_range("20200501", periods=8))
