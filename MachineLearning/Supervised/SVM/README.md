@@ -80,7 +80,7 @@ from sklearn.svm import SVC
 
 考虑一般的 **凸优化问题**
 $$
-\begin{align}\min\limits_\omega\quad & f(\omega)  \\s.t\quad & g_i(\omega) \leq 0,	& i=1,\cdots,k \\& h_i(\omega)=0，&i=1,\cdots,l \end{align} \tag{1}
+\begin{aligned}\min\limits_\omega\quad & f(\omega)  \\s.t\quad & g_i(\omega) \leq 0,	& i=1,\cdots,k \\& h_i(\omega)=0，&i=1,\cdots,l \end{aligned} \tag{1}
 $$
 称此约束最优化问题为**原始最优化问题或原始问题**，设它的 **拉格朗日函数** 为
 $$
@@ -117,12 +117,12 @@ $$
 
 可将广义拉格朗日函数的极大极小问题表示为约束最优化问题
 $$
-\begin{align}
+\begin{aligned}
 \max \limits_{\alpha,\beta:\;\alpha_i\geq0} & \theta_\mathcal{D}(\alpha,\beta)=
 	\max \limits_{\alpha,\beta:\;\alpha_i\geq0} \min\limits_\omega
 	\mathcal{L}(\omega,\alpha,\beta) \\
 & s.t. \quad \alpha_i \geq 0, \quad i=1,2,\cdots,k
-\end{align} \tag{2}
+\end{aligned} \tag{2}
 $$
 称为原始问题的对偶问题，定义对偶问题的最优值，称为对偶问题的值
 $$
