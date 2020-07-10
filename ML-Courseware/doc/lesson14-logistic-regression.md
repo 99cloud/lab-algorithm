@@ -11,11 +11,13 @@
 ### Prediction Function
 
 对于 **线性回归** 我们的 **预测函数** 为
+
 $$
 h_\theta(x)=\theta_0+\theta_1x_1+\theta_2x_2+⋯+\theta_nx_n=\theta^{\mathrm{T}}x
 $$
 
 但这个 **预测函数** 的输出是个没有范围的连续值，并不适合分类问题。因此在 **逻辑回归** 中使用了
+
 $$
 \begin{aligned}
 h_\theta(x) &= g(\theta^\mathrm{T}x) \\
@@ -222,7 +224,7 @@ $$
 除了梯度下降算法以外，还有一些常被用来令损失函数最小的算法，这些算法更加复杂和优越，而且通常不需要人工选择学习率，通常比梯度下降算法要更加快速，这些算法有
 
 - 共轭梯度（**Conjugate Gradient**）
-- 局部优化法（**fletcher goldfarb shann，BFGS**）
+- 局部优化法（**Broyden Fletcher Goldfarb Shann，BFGS**）
 - 有限内存局部优化法（**LBFGS**） 
 
 ## Regularization
@@ -323,6 +325,7 @@ $$
 \theta_j :=\theta_j(1-\alpha\frac{\lambda}{m}) 
 	-\alpha\frac1m\sum\limits_{i=1}^m(h_\theta(x^{(i)})-y^{(i)})x_j^{(i)}
 $$
+
 可以看出，正则化线性回归的梯度下降算法的变化在于，每次都在原有算法更新规则的基础上令 $\theta$ 值减少了一个额外的值
 
 我们同样也可以利用正规方程来求解正则化线性回归模型，方法如下所示

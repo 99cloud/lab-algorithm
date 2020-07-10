@@ -163,6 +163,8 @@ warnings.filterwarnings("ignore", category=Warning)
 
 ### About Mglean Warnings
 
+如果你的 Mglearn 版本低于 `0.1.9` ，有可能得到如下错误
+
 #### Six Warnings
 
 在 `import mglearn` 中，会抛出 `DeprecationWarning` 警告，这是因为版本不兼容的问题
@@ -221,7 +223,7 @@ mglearn.discrete_scatter(X[:, 0], X[:, 1], y)
 plt.legend(["Class 0", "Class 1"], loc=4)
 plt.xlabel("First feature")
 plt.ylabel("Second feature")
-plt.shouw()
+plt.show()
 print("X.shape:", X.shape)
 ```
 

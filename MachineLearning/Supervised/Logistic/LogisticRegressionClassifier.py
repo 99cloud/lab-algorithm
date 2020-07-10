@@ -22,7 +22,6 @@ class LogisticRegressionClassifier(object):
             data_mat.append([1.0, *d])
         return data_mat
 
-
     def fit(self, X, y):
         data_mat = self.data_matrix(X)
         # self.weights包含了weight和bias合并处理
