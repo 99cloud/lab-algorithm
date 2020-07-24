@@ -1,5 +1,127 @@
 # Support Vector Machine
 
+## Lagrange Duality
+
+在约束最优化问题中，常常利用拉格朗日对偶性将原始问题转化为对偶问题，通过求解对偶问题获得原始问题的解，该方法应用在许多统计学方法中，如最大熵模型、支持向量机
+
+### Original Problem
+
+考虑一般的 **凸优化问题**
+
+$$
+\begin{aligned}
+\min\limits_\omega\quad & f(\omega)  \\
+s.t\quad & g_i(\omega) \leq 0,	& i=1,\cdots,k \\
+& h_i(\omega)=0，&i=1,\cdots,l
+\end{aligned} \tag{1}
+$$
+
+称此约束最优化问题为 **原始最优化问题或原始问题**，设它的 **拉格朗日函数** 为
+
+$$
+\mathcal{L}(\omega,\alpha,\beta) = f(\omega)+ \sum\limits_{i=1}^k\alpha_ig_i(\omega) + \sum\limits_{i=1}^l\beta_ih_i(\omega)
+$$
+
+这里 $\alpha_i,\beta_i$ 是拉格朗日乘子，$\alpha_i \geq 0 $ ， 考虑 $\omega$ 的函数，这里下标 $\mathcal{P}$ 表示原始问题，考虑函数
+
+$$
+\theta_\mathcal{P}(\omega)=\max \limits_{\alpha,\beta:\;\alpha_i\geq0} 	\mathcal{L}(\omega,\alpha, \beta)
+$$
+
+在 $w$ 满足约束条件的时候 $\theta_\mathcal{P}(\omega)=f(\omega)$ ，在不满足时 $\theta_\mathcal{P}(\omega)=\infty$ 
+
+$$
+\min\limits_\omega \theta_\mathcal{P}(x)= \min\limits_\omega \max \limits_{\alpha,\beta:\;\alpha_i\geq0} 	\mathcal{L}(\omega,\alpha, \beta)
+$$
+
+此问题称为 **广义拉格朗日函数的极小极大问题**，定义原始问题的最优值 $p^\star$
+
+$$
+p^\star= \min\limits_\omega \theta_\mathcal{P}(x)
+$$
+
+### Lagrange's Dual Problem
+
+有意思的是对于这样的问题，总有一个与之对应问题（**对偶问题**），并且在特定条件下的解与原问题相同
+
+要得到 **对偶问题**，我们只需要交换 $\min,\max$ 的顺序，考虑函数
+
+$$
+\theta_\mathcal{D}(\alpha,\beta) = \min\limits_\omega\mathcal{L}(\omega,\alpha,\beta)
+$$
+
+再考虑极大化上式
+
+$$
+\max \limits_{\alpha,\beta:\;\alpha_i\geq0} \theta_\mathcal{D}(\alpha,\beta)=
+	\max \limits_{\alpha,\beta:\;\alpha_i\geq0} \min\limits_\omega
+	\mathcal{L}(\omega,\alpha,\beta)
+$$
+
+该问题称为 **广义拉格朗日函数的极大极小问题**
+
+可将广义拉格朗日函数的极大极小问题表示为约束最优化问题
+
+$$
+\begin{aligned}
+\max \limits_{\alpha,\beta:\;\alpha_i\geq0} & \theta_\mathcal{D}(\alpha,\beta)=
+	\max \limits_{\alpha,\beta:\;\alpha_i\geq0} \min\limits_\omega
+	\mathcal{L}(\omega,\alpha,\beta) \\
+& s.t. \quad \alpha_i \geq 0, \quad i=1,2,\cdots,k
+\end{aligned} \tag{2}
+$$
+
+称为原始问题的对偶问题，定义对偶问题的最优值，称为对偶问题的值
+
+$$
+d^\star= \max \limits_{\alpha,\beta:\;\alpha_i\geq0} \theta_\mathcal{D}(\alpha,\beta)
+$$
+
+### The Relationship between the Original Problem and the Dual Problem
+
+#### Theorem 1
+
+若原始问题和对偶问题都有最优值，则
+
+$$
+d^\star= \max \limits_{\alpha,\beta:\;\alpha_i\geq0} \theta_\mathcal{D}(\alpha,\beta)
+\leq\min\limits_\omega \theta_\mathcal{P}(\omega)=p^\star
+$$
+
+#### Inference 1
+
+设 $\omega^\star$ 和 $\alpha^\star,\ \beta^\star$ 分别是原始问题 （公式 $(1)$ ）和对偶问题(公式 $(2)$ )的可行解，并且 $d^\star=q^\star$ ，则 $\omega^\star$ 和 $\alpha^\star,\ \beta^\star$ 分别是原始问题和对偶问题的最优解
+
+#### Theorem 2
+
+考虑原始问题（公式 $(1)$）和对偶问题（公式 $(2)$）
+
+设函数 $f(x)$ 和 $g_i(x)$ 是凸函数，$h_j(x)$ 是仿射函数；并且假设不等式约束 $g_i(x)$ 是严格可行的，即存在 $\omega$ ， 对所有 $i$ 有 $c_i(x)<0$， 则存在 $\omega^\star,\ \alpha^\star,\ \beta^\star$ 使 $\omega^\star$ 是原始问题的解， $\alpha^\star,\ \beta^\star$  是对偶问题的解，并且
+
+$$
+d^\star=p^\star=\mathcal{L}(\omega^\star,\alpha^\star,\beta^\star)
+$$
+
+#### Theorem 3
+
+最后再来看看 **对偶问题** 的解在什么情况下与 **原问题** 相同，如果函数 $f,g$ 都是 **凸函数**，$h$ 是 **仿射射函数**（ 线性的 ），并且存在 $\omega$ 使得 $g_i(\omega)<0$，则优化问题若有解 $\omega^\star,\ \alpha^\star,\ \beta^\star$ ， 则需要满足 **KKT** 条件，反之满足 **KKT** 条件的解也是优化问题的解（ **KKT** 条件如下 ）
+
+> $$
+> KKT\ Conditions \quad
+> \begin{cases}
+> \frac{\partial}{\partial\omega_i}\mathcal{L}(\omega^\star,\alpha^\star,\beta^\star)=0,	
+> & i=1,\cdots,m \\
+> \frac{\partial}{\partial\alpha_i}\mathcal{L}(\omega^\star,\alpha^\star,\beta^\star)=0, 	
+> & i=1,\cdots,k \\
+> \frac{\partial}{\partial\beta_i}\mathcal{L}(\omega^\star,\alpha^\star,\beta^\star)=0, 	
+> & i=1,\cdots,l \\
+> \alpha_i^\star g_i(\omega^\star) = 0, & i=1,\cdots,k \\
+> g_i(\omega^\star) \leq 0, & i=1,\cdots,k \\
+> \alpha_i \geq 0, & i=1,\cdots,k \\
+> h_i(\omega^\star) = 0, & i=1,\cdots,l \\
+> \end{cases}
+> $$
+
 ## SVM Mentality
 
 从 **最大间距分类器** 开始，通过 **拉格朗日对偶** 得到原问题的 **对偶** 问题，使得我们可以应用 **核技巧（ kernel trick ）**，用高效的方式解决高维问题
@@ -38,6 +160,10 @@ $$
 在接下来的 **SVM** 讨论中，我们约定 $y^{(i)}$ 的取值为 $\{1,-1\}$ （表示在决策边界的某一侧，这样使得距离的计算都是正值 ），当 $\omega^\mathrm{T}x + b \geq 0$ 时取 $1$ ，当 $\omega^\mathrm{T}x + b \leq 0$ 时取 $-1$  
 
 同时还需要定义 $\hat\gamma$ 为所有 $\hat\gamma^{(i)}$ 中最小的值， $\gamma$ 为所有 $\gamma^{(i)}$ 中最小的值
+
+$$
+\gamma=\min\limits_{i=1,2,\cdots,N}\gamma^{(i)}
+$$
 
 于是要求离所有样本都比较远的决策边界问题就成为了在给定约束条件下求最值的问题
 
@@ -169,7 +295,7 @@ $$
 
 如果这里不仅仅只有 $x$ 的一次方项，比如增加二次方，那么模型就变成了 **多项式回归**
 
-这里写一个只有两个特征的p次方多项式回归的模型
+这里写一个只有两个特征的 $p$ 次方多项式回归的模型
 
 $$
 h_\theta (x)=\theta_0+\theta_1x_1+\theta_2 x_2
@@ -335,7 +461,7 @@ s.t.\quad & 0 \leq \alpha_i \leq C, \qquad i=1,\cdots,m \\
 \end{aligned}
 $$
 
-这就是软间隔最大化时的线性可分 SVM 的优化目标形式，我们仅仅是多了一个约束条件 $0 \leq \alpha_i \leq C$ ，依然可以通过 SMO 算法来求上式极小化时对应的 $\alpha$ 向量就可以求出 $\omega$ 和 $b$ 了
+这就是软间隔最大化时的线性可分 SVM 的优化目标形式，我们仅仅是多了一个约束条件 $0 \leq \alpha_i \leq C$，依然可以通过 SMO 算法来求上式极小化时对应的 $\alpha$ 向量就可以求出 $\omega$ 和 $b$ 了
 
 由对偶规划求得最优解 $\alpha^\star=(\alpha_1^\star,\alpha_2^\star,\dots,\alpha_N^\star)$ ，然后我们可以由 **KKT** 条件得到原始规划的最优解
 
@@ -399,7 +525,7 @@ plt.ylabel("feature2")
 
 ![SVM Blobs Datasets SVC](figures/l15/l15-SVM-Blobs-Datasets-SVC.png)
 
-现在我们对输入特征进行扩展，比如说添加第二个特征的平方（feature1 ** 2）作为一个新特征，现在将每个数据点表示为三维点 `(feature0, feature1, feature1 ** 2)` ，而不是原先的二维点 `(feature0, feature1)`，画出新特征坐标下的三维散点图
+现在我们对输入特征进行扩展，比如说添加第二个特征的平方（`feature1 ** 2`）作为一个新特征，现在将每个数据点表示为三维点 `(feature0, feature1, feature1 ** 2)` ，而不是原先的二维点 `(feature0, feature1)`，画出新特征坐标下的三维散点图
 
 ```python
 import numpy as np
@@ -447,9 +573,9 @@ ax.set_zlabel("feature1 ** 2")
 
 ```python
 # show decision func
-ZZ = YY**2
-dec = linear_svm_3d.decision_function(np.c_[XX.ravel(), YY.ravel(), ZZ.ravel()])
-plt.contourf(XX, YY, dec.reshape(XX.shape), levels=[dec.min(), 0, dec.max()], cmap=mglearn.cm2, alpha=0.5)
+ZZ = YY ** 2
+dec = linear_svm_3d.decision_function(np.c_[XX.ravel(), YY.ravel(), ZZ.ravel()])	# .c_ 按行连接
+plt.contourf(XX, YY, dec.reshape(XX.shape), levels=[dec.min(), 0, dec.max()], cmap=mglearn.cm2, alpha=0.5)	# 绘制等高线
 mglearn.discrete_scatter(X[:, 0], X[:, 1], y)
 plt.xlabel("Feature 0")
 plt.ylabel("Feature 1")

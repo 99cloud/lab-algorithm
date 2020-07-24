@@ -95,6 +95,7 @@ $$
 假设我们的多分类问题有 $K$ 个分类，神经网络共有 $L$ 层，第 $l$ 层的神经元个数为 $S_l$
 
 那么神经网络的 **损失函数** 为
+
 $$
 J(\Theta)=-\frac1m\sum\limits_{i=1}^m\sum\limits_{k=1}^K
 \left(
@@ -104,6 +105,7 @@ y_k^{(i)}log(h_\Theta(x^{(i)}))_k
 +\frac{\lambda}{2m}\sum\limits_{l=1}^{L-1}\sum\limits_{i=1}^{S_l}\sum\limits_{j=1}^{S_{l+1}}
 (\Theta_{ji}^{(l)})^2
 $$
+
 其中的第二项为 **正则化** 项，是网络中所有权值的平方和
 
 第一项与逻辑回归中的 **损失函数** 类似，但这里我们需要累加所有输出神经元的误差
@@ -117,11 +119,13 @@ $$
 为了能够使用 **梯度下降** 算法来训练网络，我们需要计算代价函数的梯度
 
 一种很直观的方法就是使用数值计算，对于某个 $\Theta_{ij} $ ，给它加上减去一个很小的量 $\epsilon$ 来计算梯度：
+
 $$
 \frac{\partial J(\theta)}{\partial\theta_j} \approx 
 \frac{J(\theta_1,\cdots,\theta_j+\epsilon,\cdots,\theta_n)
 -J(\theta_1,\cdots,\theta_j-\epsilon,\cdots,\theta_n)}{2\epsilon}
 $$
+
 但分析一下算法的复杂度就能知道，这样的方法十分缓慢，对于每一组数据，我们需要计算所有权值的梯度
 
 **总的计算次数** = **训练数据个数** $\times$ **网络权值个数** $\times$ **前向传播计算次数** 
@@ -158,7 +162,7 @@ $$
  +\frac{\partial z}{\partial q}\frac{\partial q}{\partial v}\frac{\partial v}{\partial x}
 $$
 
-简化为了只与上一层相关，利用上一层计算完成的结果 $\frac{\partial z}{\partial u}$  和 $\frac{\partial z}{\partial v}$  而不用从头算起
+简化为了只与上一层相关，利用上一层计算完成的结果 $\frac{\partial z}{\partial u}$ 和 $\frac{\partial z}{\partial v}$ 而不用从头算起
 
 $$
 \frac{\partial z}{\partial x}=
@@ -166,7 +170,7 @@ $$
  +\frac{\partial z}{\partial v}\frac{\partial v}{\partial x}
 $$
 
-一般的，对于函数 $y$，如果它能看做 $z_1,z_2⋯,z_n$ 的函数，而 $z_i$ 为 $t$ 的函数，则
+一般的，对于函数 $y$，如果它能看做 $z_1,z_2,\cdots,z_n$ 的函数，而 $z_i$ 为 $t$ 的函数，则
 
 $$
 \frac{\partial y}{\partial t} = \sum\limits_{i=1}^{n}
@@ -319,7 +323,7 @@ warnings.filterwarnings("ignore", category=Warning)
 
 #### Model Diagram
 
-MLP也可被视为广义的线性模型，执行多层处理后得到结论，回顾我们的线性模型
+MLP 也可被视为广义的线性模型，执行多层处理后得到结论，回顾我们的线性模型
 
 $$
 \hat y = w[0]+w[1]* x[1] + \cdots + w[p]* x[p] + b
@@ -335,7 +339,7 @@ display(mglearn.plots.plot_logistic_regression_graph())
 
 上图中左边的每个结点代表一个输入特征，连线代表学到的系数，右边的结点代表输出，是输入的加权求和
 
-在MLP中，多次重复这个计算加权求和的过程，首先计算代表中间过程的 **隐单元（hidden unit）**，然后计算这些隐单元的加权求和并得到最终结果
+在 MLP 中，多次重复这个计算加权求和的过程，首先计算代表中间过程的 **隐单元（hidden unit）**，然后计算这些隐单元的加权求和并得到最终结果
 
 ```python
 display(mglearn.plots.plot_single_hidden_layer_graph())
@@ -358,13 +362,13 @@ plt.ylabel("relu(x), tanh(x)")
 
 ![ReLU Tanh](figures/l16/l16-ReLU-Tanh.png)
 
-对于上上图的小型神经网络，计算回归问题的 $\hat y$ 的完整公式如下（使用 $tanh$ 非线性）
+对于上上图的小型神经网络，计算回归问题的 $\hat y$ 的完整公式如下（使用 $\tanh$ 非线性）
 
 $$
 \begin{aligned}
 h[0] &=tanh(w[0,0] * x[0]+w[1,0] * x[1]+w[2,0] * x[2]+w[3,0] * x[3]+b[0]) \\
-h[1] &=tanh(w[0,0] * x[0]+w[1,0] * x[1]+w[2,0] * x[2]+w[3,0] * x[3]+b[1]) \\
-h[2] &=tanh(w[0,0] * x[0]+w[1,0] * x[1]+w[2,0] * x[2]+w[3,0] * x[3]+b[2]) \\
+h[1] &=tanh(w[0,1] * x[0]+w[1,1] * x[1]+w[2,1] * x[2]+w[3,1] * x[3]+b[1]) \\
+h[2] &=tanh(w[0,2] * x[0]+w[1,2] * x[1]+w[2,2] * x[2]+w[3,2] * x[3]+b[2]) \\
 \hat y &=v[0] * h[0]+v[1] * h[1]+v[2] * h[2]+b
 \end{aligned}
 $$

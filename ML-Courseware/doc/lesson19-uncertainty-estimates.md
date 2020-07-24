@@ -143,7 +143,7 @@ for ax in axes:
     ax.set_ylabel("Feature 1")
 position = fig.add_axes([0.9, 0.1, 0.02, 0.75])  # 位置 [左, 下, 宽, 高]
 cbar = plt.colorbar(scores_image, cax=position, ax=axes.tolist(), orientation="vertical")
-cbar.set_alpha(1)
+cbar.set_alpha(0.5)
 cbar.draw_all()
 axes[0].legend(["Test class 0", "Test class 1", "Train class 0",
                 "Train class 1"], ncol=4, loc=(.1, 1.1))
@@ -227,11 +227,11 @@ axes[0].legend(["Test class 0", "Test class 1", "Train class 0",
 
 ### Algorithm Summary
 
-- **最近邻** 适用于小型数据集，是很好的基准模型，很容易解释
-- **线性模型** 非常可靠的首选算法，适用于非常大的数据集，也适用于高维数据
-- **朴素贝叶斯** 只适用于分类问题，比线性模型速度还快，适用于非常大的数据集合高维数据，精度通常要低于线性模型
-- **支持向量机** 对于特征含义相似的中等大小的数据集很强大，需要数据缩放，对参数敏感
-- **神经网络** 对于大型数据集，可以构建非常复杂的模型，对数据缩放敏感，对参数选取敏感，大型网络需要很长的训练时间
+- **最近邻**，适用于小型数据集，是很好的基准模型，很容易解释
+- **线性模型**，非常可靠的首选算法，适用于非常大的数据集，也适用于高维数据
+- **朴素贝叶斯**，只适用于分类问题，比线性模型速度还快，适用于非常大的数据集合高维数据，精度通常要低于线性模型
+- **支持向量机**，对于特征含义相似的中等大小的数据集很强大，需要数据缩放，对参数敏感
+- **神经网络**，对于大型数据集，可以构建非常复杂的模型，对数据缩放敏感，对参数选取敏感，大型网络需要很长的训练时间
 
 ### Processing Thoughts
 
