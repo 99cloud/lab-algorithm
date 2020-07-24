@@ -15,6 +15,9 @@
 ```python
 from sklearn.datasets import load_digits
 from sklearn.model_selection import train_test_split
+import warnings
+
+warnings.filterwarnings("ignore", category=Warning)
 
 digits = load_digits()
 y = digits.target == 9
@@ -63,9 +66,6 @@ Test score: 0.92
 
 ```python
 from sklearn.linear_model import LogisticRegression
-import warnings
-
-warnings.filterwarnings("ignore", category=Warning)
 
 dummy = DummyClassifier().fit(X_train, y_train)
 pred_dummy = dummy.predict(X_test)
@@ -79,7 +79,7 @@ print("logreg score: {:.2f}".format(logreg.score(X_test, y_test)))
 **Output**
 
 ```console
-dummy score: 0.81
+dummy score: 0.82
 logreg score: 0.98
 ```
 
@@ -109,6 +109,7 @@ Confusion matrix:
 `confusion_matrix` 的输出是一个二乘二的数组，其中行对应于真实类，列对应于预测类，对于每次预测，计算该行所给的类中有多少个数据点是该列所给的预测类的数据点，这里以是不是数字 $9$ 来区分，我们以图来演示（由于版本问题，数字有一些细微的差别）
 
 ```python
+import mglearn
 mglearn.plots.plot_confusion_matrix_illustration()
 ```
 
@@ -124,7 +125,7 @@ mglearn.plots.plot_confusion_matrix_illustration()
 - **假反例（FN）** 实际上是正例的数据点被标记为反例
 
 ```python
- mglearn.plots.plot_binary_confusion_matrix()
+mglearn.plots.plot_binary_confusion_matrix()
 ```
 
 ![Confusion Matrix 2 Class](figures/l20/l20-Confusion-Matrix-2-Class.png)
@@ -150,14 +151,14 @@ Most frequent class:
  [ 47   0]]
 
 Dummy model:
-[[367  36]
- [ 43   4]]
+[[361  42]
+ [ 40   7]]
 
 Decision tree:
 [[390  13]
  [ 24  23]]
 
-Logistic Regression
+Logistic Regression:
 [[402   1]
  [  6  41]]
 ```
@@ -294,12 +295,12 @@ print(classification_report(y_test, pred_dummy, target_names=["not nine", "nine"
 ```console
               precision    recall  f1-score   support
 
-    not nine       0.90      0.91      0.90       403
-        nine       0.12      0.11      0.11        47
+    not nine       0.90      0.90      0.90       403
+        nine       0.14      0.15      0.15        47
 
-    accuracy                           0.83       450
-   macro avg       0.51      0.51      0.51       450
-weighted avg       0.82      0.83      0.82       450
+    accuracy                           0.82       450
+   macro avg       0.52      0.52      0.52       450
+weighted avg       0.82      0.82      0.82       450
 ```
 
 我们发现效果依旧不稳定，没有太大的实际意义
@@ -327,9 +328,9 @@ weighted avg       0.98      0.98      0.98       450
 
 混淆矩阵和分类报告对一组特定的预测结果进行了非常详细的分析，然而，预测本身已经抛出了很多包含在模型中的信息，大多数分类器提供了一个 `decision_function` 或 `predict_proba` 方法来评估预测的确定性程度
 
-进行预测可以看作是将 `decision_function` 或 `predict_proba` 的输出在某一固定点上进行阈值化——在二进制分类中，决策函数为 `0`，预测函数为 `0.5`
+进行预测可以看作是将 `decision_function` 或 `predict_proba` 的输出在某一固定点上进行阈值化 —— 在二进制分类中，决策函数为 `0`，预测函数为 `0.5`
 
-下面是一个不平衡二元分类任务的例子，400 个蓝色点对 50 个红色点进行分类
+下面是一个不平衡二元分类任务的例子，$400$ 个蓝色点对 $50$ 个红色点进行分类
 
 训练数据如图左侧所示，我们在这个数据上训练一个 kernel SVM 模型，图中右侧是决策函数的值作为热图，红色背景表示那里的点会被归为红色，蓝色背景表示那里的点会被归为蓝色
 
@@ -414,7 +415,7 @@ weighted avg       0.95      0.83      0.87       113
 
 对分类器设置一个要求，比如 `90%` 的召回率，通常被称为操作点，固定一个操作点，在业务设置中往往有助于向客户或组织内部其他群体做出性能保证
 
-通常情况下，在开发一个新模型时，并不完全清楚操作点是什么，基于这个原因，为了更好地理解建模问题，我们可以一次性地研究所有可能的阈值，或者说所有可能的精度和召回的权衡，这可以用一个叫做 precision-recall 曲线的工具来实现，你可以在 `sklearn.metrics` 模块中找到计算 precision-recall 曲线的函数，它需要通过真相标签和 `decision_function` 或 `predict_proba` 创建的预测的不确定性
+通常情况下，在开发一个新模型时，并不完全清楚操作点是什么，基于这个原因，为了更好地理解建模问题，我们可以一次性地研究所有可能的阈值，或者说所有可能的精度和召回的权衡，这可以用一个叫做 precision-recall 曲线的工具来实现，你可以在 `sklearn.metrics` 模块中找到计算 precision-recall 曲线的函数 `precision_recall_curve`，它需要通过真相标签和 `decision_function` 或 `predict_proba` 创建的预测的不确定性
 
 ```python
 import numpy as np
@@ -427,12 +428,15 @@ import warnings
 
 warnings.filterwarnings('ignore', category=Warning)
 
+'''
 X, y = make_blobs(n_samples=(400, 50), centers=2, cluster_std=[7.0, 2], random_state=22)
 X_train, X_test, y_train, y_test = train_test_split(X, y, random_state=0)
 svc = SVC(gamma=.05).fit(X_train, y_train)
 
 precision, recall, thresholds = precision_recall_curve(
     y_test, svc.decision_function(X_test))
+'''
+
 # create a similar dataset as before, but with more samples
 # to get a smoother curve
 X, y = make_blobs(n_samples=(4000, 500), centers=2, cluster_std=[7.0, 2],
@@ -454,13 +458,13 @@ plt.legend(loc="best")
 
 ![PR Curve SVC Gamma.05](figures/l20/l20-PR-Curve-SVC-Gamma.05.png)
 
-在 “recision_recall_curve” 中，曲线上的每一个点都对应着 `decision_function` 上的一个可能的阈值，例如，在精度约为 `0.75` 的情况下，召回率为 `0.4`，黑色的圆圈标记的点对应的阈值为 `0`，也就是 `decision_function` 的默认阈值，这个点就是调用预测方法时选择的取舍点
+在 **recision_recall_curve** 中，曲线上的每一个点都对应着 `decision_function` 上的一个可能的阈值，例如，在精度约为 `0.75` 的情况下，召回率为 `0.4`，黑色的圆圈标记的点对应的阈值为 `0`，也就是 `decision_function` 的默认阈值，这个点就是调用预测方法时选择的取舍点
 
 曲线越接近右上角，分类器的效果越好，在右上角的点意味着在相同阈值的情况下，精度高，召回率高，曲线从左上角开始，对应着一个很低的阈值，将所有的东西都分类为正类，提高阈值，曲线会向着更高的精度移动，但也会降低召回率，随着阈值越来越高，大多数被归类为阳性的点都是真正的阳性，这就导致了在较低的召回率下，精度非常高
 
-再看一下这个特殊的曲线，用这个模型可以得到一个精度达到 `0.5` 左右的精度下，一个较高召回率的水平，如果我们想要更高的精度，就必须要牺牲很多精度，换句话说，在左边，曲线是相对平坦的，也就是说，当我们要求精度提高时，召回率不会下降很多，对于精度大于`0.5` 的情况，精度的增益会让我们牺牲很多召回的成本
+再看一下这个特殊的曲线，用这个模型可以得到一个精度达到 `0.5` 左右的精度下，一个较高召回率的水平，如果我们想要更高的精度，就必须要牺牲很多召回率，换句话说，在左边，曲线是相对平坦的，也就是说，当我们要求精度提高时，召回率不会下降很多，对于精度大于`0.5` 的情况，精度的增益会让我们牺牲很多召回的成本
 
-不同的分类器在曲线的不同部位，也就是在不同的操作点上都能很好地发挥作用，下面我们将我们训练的 `SVC` 与在相同数据集上训练的随机森林进行比较，随机森林分类器（`RandomForestClassifier`）没有 `decision_function`，只有 `predict_proba`， `recision_recall_curve` 函数的第二个参数是正类（类1）的确定性度量，所以我们传递一个样本为类 1 的概率，即 `rf.profest_proba(x_test)[:, 1]`，在二元分类中，`predict_proba` 的默认阈值是 `0.5`，所以这就是我们在曲线上标记的点
+不同的分类器在曲线的不同部位，也就是在不同的操作点上都能很好地发挥作用，下面我们将我们训练的 `SVC` 与在相同数据集上训练的随机森林进行比较，随机森林分类器（`RandomForestClassifier`）没有 `decision_function`，只有 `predict_proba`， `recision_recall_curve` 函数的第二个参数是正类（类 1）的确定性度量，所以我们传递一个样本为类 1 的概率，即 `rf.profest_proba(x_test)[:, 1]`，在二元分类中，`predict_proba` 的默认阈值是 `0.5`，所以这就是我们在曲线上标记的点
 
 ```python
 from sklearn.ensemble import RandomForestClassifier
@@ -494,6 +498,8 @@ plt.legend(loc="best")
 我们来对比一下默认值下 F1 分数的差距
 
 ```python
+from sklearn.metrics import f1_score
+
 print("f1_score of random forest: {:.3f}".format(
     f1_score(y_test, rf.predict(X_test))))
 print("f1_score of svc: {:.3f}".format(f1_score(y_test, svc.predict(X_test))))
@@ -600,7 +606,7 @@ AUC for SVC: 0.916
 
 因为平均精度是曲线下的面积，所以总是返回一个介于 `0`（最差）和 `1`（最好）之间的值，无论数据集中的类有多不平衡，随机预测总是会产生一个 `0.5` 的 AUC，这使得它成为不平衡分类问题的衡量标准，比准确度要好得多
 
-AUC 可以理解为评估正类样本的排名，AUC 相当于根据分类器随机抽取的正类点比随机抽取的负类点的得分高的概率，所以完美的 AUC 为 1，意味着所有正类点的得分都比所有负类点的得分高
+AUC 可以理解为评估正类样本的排名，AUC 相当于根据分类器随机抽取的正类点比随机抽取的负类点的得分高的概率，所以完美的 AUC 为 $1$，意味着所有正类点的得分都比所有负类点的得分高
 
 对于不平衡类的分类问题，使用 AUC 进行模型选择往往比使用准确度更有意义，让我们回到前面研究的问题，即对数字数据集中的所有 $9$ 与其他所有数字进行分类，我们将设置 SVM 三种不同的 `gamma` 来分类
 
@@ -638,10 +644,10 @@ gamma = 0.01  accuracy = 0.90  AUC = 1.00
 
 ![ROC SVM GAMMA](figures/l20/l20-ROC-SVM-GAMMA.png)
 
-`gamma` 的三种设置的准确率都是一样的，都是 90%，不过，看一下AUC和相应的曲线，我们可以看到这三种模型之间有明显的区别
+`gamma` 的三种设置的准确率都是一样的，都是 $90\%$，不过，看一下 AUC 和相应的曲线，我们可以看到这三种模型之间有明显的区别
 
 当 `gamma=1.0` 时，AUC 实际上处于偶然性水平，也就是说 `decision_function` 的输出和随机性一样，当 `gamma=0.05` 时，性能急剧提高，最后当 `gamma=0.01` 时，我们得到的 AUC 为 `1.0`，这意味着，根据决策函数，所有的正值点的排名都高于所有的负值点，换句话说，在合适的阈值下，这个模型可以对数据进行完美的分类! 
 
-如果详细观察 `gamma=0.01` 的曲线，你可以看到左上角附近有一个小的折痕，这意味着至少有一个点没有被正确排序，`1.0` 的 AUC 是四舍五入到小数点后的结果] 知道了这一点，我们就可以调整这个模型的临界值，得到很好的预测结果，当然如果我们只看准确度的话，我们就不能发现这个结论
+如果详细观察 `gamma=0.05` 的曲线，你可以看到左上角附近有一个小的折痕，这意味着至少有一个点没有被正确排序，`1.0` 的 AUC 是四舍五入到小数点后的结果，知道了这一点，我们就可以调整这个模型的临界值，得到很好的预测结果，当然如果我们只看准确度的话，我们就不能发现这个结论
 
 基于这个原因，我们强烈建议在不平衡数据上评估模型时使用 AUC，请记住，AUC 并不使用默认阈值，所以为从高 AUC 的模型中获得有用的分类结果，调整决策阈值可能是必要的
