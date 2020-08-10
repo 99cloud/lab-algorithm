@@ -129,8 +129,6 @@ min_samples: 5 eps: 3.000000  cluster: [0 0 0 0 0 0 0 0 0 0 0 0]
 from sklearn.datasets import make_moons
 from sklearn.preprocessing import StandardScaler
 from sklearn.cluster import DBSCAN
-import matplotlib.pyplot as plt
-import mglearn
 
 X, y = make_moons(n_samples=200, noise=0.05, random_state=0)
 

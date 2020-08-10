@@ -224,6 +224,8 @@ mglearn.discrete_scatter(
 
 
 ```python
+import matplotlib.pyplot as plt
+
 fig, axes = plt.subplots(1, 2, figsize=(10, 5))
 
 # 使用 2 个簇中心 

@@ -12,6 +12,8 @@
 `ward` 适用于大多数数据集，如果簇中的成员个数非常不同（比如其中一个比其他所有都大得多），那么 `average` 或 `complete` 可能效果更好
 
 ```python
+import mglearn
+
 mglearn.plots.plot_agglomerative_algorithm()
 ```
 
