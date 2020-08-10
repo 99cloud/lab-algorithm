@@ -38,7 +38,7 @@ import os
 
 # 设置数据路径（注意相对路径位置关系）
 BASIC_DIR = os.path.abspath('.')
-DATA_DIR = os.path.join(BASIC_DIR, "../datas/olivetti")
+DATA_DIR = os.path.join(BASIC_DIR, "datas/olivetti")
 
 # 查看数据文件
 print(os.listdir(DATA_DIR))
@@ -98,8 +98,8 @@ warnings.filterwarnings("ignore")
 - $40$ 位测试者的姓名编码为 $0$ 到 $39$ 之间的整数
 
 ```python
-data = np.load("input/olivetti_faces.npy")
-target = np.load("input/olivetti_faces_target.npy")
+data = np.load(os.path.join(DATA_DIR, "olivetti_faces.npy"))
+target = np.load(os.path.join(DATA_DIR, "olivetti_faces_target.npy"))
 ```
 
 我么可以验证一下数据的信息
@@ -107,7 +107,7 @@ target = np.load("input/olivetti_faces_target.npy")
 ```python
 print("There are {} images in the dataset".format(len(data)))
 print("There are {} unique targets in the dataset".format(len(np.unique(target))))
-print("Size of each image is {}x{}".format(data.shape[1],data.shape[2]))
+print("Size of each image is {}x{}".format(data.shape[1], data.shape[2]))
 print("Pixel values were scaled to [0,1] interval. e.g:{}".format(data[0][0,:4]))
 ```
 
@@ -198,7 +198,7 @@ show_10_faces_of_n_subject(images=data, subject_ids=[0, 5, 21, 24, 36])
 
 ```python
 # 我们对图像进行重塑，以建立机器学习模型
-X=data.reshape((data.shape[0], data.shape[1] * data.shape[2]))
+X = data.reshape((data.shape[0], data.shape[1] * data.shape[2]))
 print("X shape:", X.shape)
 ```
 
@@ -307,12 +307,13 @@ plt.tick_params(labelsize=15)
 ax2 = ax1.twinx()
 
 plt.plot(np.cumsum(pca.explained_variance_ratio_), 'r', linewidth=2,
-         label = 'Cumsum Variance Ratio')
+         label = 'Cumsum Variance Ratio (%)')
 
 plt.ylabel('Cumsum of Explained Variaces', size=16, color='r')
 plt.tick_params(labelsize=15)
 
-fig.legend(loc='best', prop={'size': 14}, bbox_transform=ax1.transAxes)
+# fig.legend(loc='best', prop={'size': 14}, bbox_transform=ax1.transAxes)
+fig.legend(prop={'size': 14}, bbox_transform=ax1.transAxes)
 plt.show()
 ```
 
@@ -341,8 +342,8 @@ PCA(copy=True, iterated_power='auto', n_components=90, random_state=None,
 ### Show Average Face
 
 ```python
-fig, ax = plt.subplots(1, 1, figsize=(8,8))
-ax.imshow(pca.mean_.reshape((64,64)), cmap="gray")
+fig, ax = plt.subplots(1, 1, figsize=(8, 8))
+ax.imshow(pca.mean_.reshape((64, 64)), cmap="gray")
 ax.set_xticks([])
 ax.set_yticks([])
 ax.set_title('Average Face')
@@ -361,7 +362,7 @@ rows = int(number_of_eigenfaces/cols)
 fig, axarr = plt.subplots(nrows=rows, ncols=cols, figsize=(15,15))
 axarr = axarr.flatten()
 for i in range(number_of_eigenfaces):
-    axarr[i].imshow(eigen_faces[i],cmap="gray")
+    axarr[i].imshow(eigen_faces[i], cmap="gray")
     axarr[i].set_xticks([])
     axarr[i].set_yticks([])
     axarr[i].set_title("eigen id:{}".format(i))
@@ -510,7 +511,7 @@ Accuracy score:0.64
 Accuracy score:0.92
 ```
 
-根据上述结果，线性判别分析和 Logistic 回归似乎有最好的表现
+根据上述结果，线性判别分析和 Logistic 回归似乎有最好的表现，SVM 分类器也较为优秀
 
 ### Validated Results
 
@@ -524,7 +525,7 @@ X_pca = pca.transform(X)
 for name, model in models:
     kfold = KFold(n_splits=5, shuffle=True, random_state=0)
     
-    cv_scores=cross_val_score(model, X_pca, target, cv=kfold)
+    cv_scores = cross_val_score(model, X_pca, target, cv=kfold)
     print("{} mean cross validations score:{:.2f}".format(name, cv_scores.mean()))
 ```
 
@@ -661,7 +662,15 @@ LinearDiscriminantAnalysis Leave One Out cross-validation mean accuracy score: 0
 
 ### Hyperparameter Tunning: GridSearcCV
 
-我们可以做 GridSearchCV 来提高模型泛化性能，为此，我们将对 Logistic 回归分类器的超参数进行调整
+我们可以用 GridSearchCV 来提高模型泛化性能
+
+事实上，GridSearchCV，的主要功能就是自动调参，只要把参数输进去，就能给出最优化的结果和参数，但是这个方法适合于小数据集，一旦数据的量级上去了，很难得出结果，数据量比较大的时候可以使用一个快速调优的方法 —— 坐标下降
+
+GridSearchCV 其实是一种贪心算法，拿当前对模型影响最大的参数调优，直到最优化；再拿下一个影响最大的参数调优，如此下去，直到所有的参数调整完毕，这个方法的缺点就是可能会调到局部最优而不是全局最优，但是省时间省力，后续也有更多优化算法
+
+通常算法会有一些需要调试的关键参数（即使有时默认参数效果也不错），比如 SVM 的惩罚因子 `C`，核函数 `kernel` 和 `gamma` 参数等，对于不同的数据使用不同的参数，结果效果可能差 $1\sim 5$ 个百分点，Sklearn 为我们提供专门调试参数的函数 `GridSearchCV`
+
+为此，我们将对 Logistic 回归分类器的超参数进行调整
 
 ```python
 from sklearn.model_selection import GridSearchCV
@@ -694,7 +703,7 @@ Grid search fitted..
 grid search cross validation score:0.93
 ```
 
-adfjsdjfk
+利用最优化参数 `{'C': 3593.813663804626, 'penalty': 'l2'}` 重新运行 `LogisticRegression` 分类器
 
 ```python
 lr = LogisticRegression(C=3594.0, penalty="l2")
@@ -712,6 +721,16 @@ lr score: 0.93
 
 Precision-Recall-ROC Curves 是针对二元分类的，在 Olivetti 数据集中，有 40 个不同的类，不过 sklearn 允许我们说明多标签设置下的 Precision-Recall
 
+针对多类问题的分类中，具体讲有两种，即 **Multiclass Classification** 和 **Multilabel Classification**
+
+- Multiclass 是指分类任务中包含不止一个类别时，每条数据仅仅对应其中一个类别，不会对应多个类别
+- Multilabel 是指分类任务中不止一个分类时，每条数据可能对应不止一个类别标签，例如一条新闻，可以被划分到多个板块
+
+无论是 Multiclass，还是 Multilabel，做分类时都有两种策略，一个是 **One-vs-​the-Rest (One-vs-All)**，另一个是 **One-vs-One**
+
+在 **One-vs-All** 策略中，假设有 $n$ 个类别，那么就会建立 $n$ 个二项分类器，每个分类器针对其中一个类别和剩余类别进行分类，进行预测时，利用这 $n$ 个二项分类器进行分类，得到数据属于当前类的概率，选择其中概率最大的一个类别作为最终的预测结果
+
+在 **One-vs-One** 策略中，同样假设有 $n$ 个类别，则会针对两两类别建立二项分类器，得到 $k=n\times(n-1)/2$ 个分类器，对新数据进行分类时，依次使用这 $k$ 个分类器进行分类，每次分类相当于一次投票，分类结果是哪个就相当于对哪个类投了一票，在使用全部 $k$ 个分类器进行分类后，相当于进行了 $k$ 次投票，选择得票最多的那个类作为最终分类结果​
 
 ```python
 from sklearn.preprocessing import label_binarize
@@ -766,7 +785,7 @@ for i in range(n_classes):
 
 # A "micro-average": quantifying score on all classes jointly
 precision["micro"], recall["micro"], _ = metrics.precision_recall_curve(y_test_multiclass.ravel(), y_score.ravel())
-average_precision["micro"] = metrics.average_precision_score(y_test_multiclass, y_score,average="micro")
+average_precision["micro"] = metrics.average_precision_score(y_test_multiclass, y_score, average="micro")
 
 print('Average precision score, micro-averaged over all classes: {0:0.2f}'
     .format(average_precision["micro"]))
@@ -775,7 +794,7 @@ print('Average precision score, micro-averaged over all classes: {0:0.2f}'
 **Output**
 
 ```console
-Average precision score, micro-averaged over all classes: 0.96
+Average precision score, micro-averaged over all classes: 0.97
 ```
 
 ROC 绘制
@@ -788,7 +807,7 @@ step_kwargs = ({'step': 'post'}
                 if 'step' in signature(plt.fill_between).parameters
                 else {})
 plt.figure(1, figsize=(12,8))
-plt.step(recall['micro'], precision['micro'], color='b', alpha=0.2,where='post')
+plt.step(recall['micro'], precision['micro'], color='b', alpha=0.2, where='post')
 plt.fill_between(recall["micro"], precision["micro"], alpha=0.2, color='b', **step_kwargs)
 
 plt.xlabel('Recall')
@@ -808,9 +827,9 @@ from sklearn.discriminant_analysis import LinearDiscriminantAnalysis
 ```
 
 ```python
-lda = LinearDiscriminantAnalysis(n_components=n_components)
+lda = LinearDiscriminantAnalysis(n_components=n_classes-1)
 X_train_lda = lda.fit(X_train, y_train).transform(X_train)
-X_test_lda=lda.transform(X_test)
+X_test_lda = lda.transform(X_test)
 ```
 
 ```python
@@ -818,7 +837,6 @@ lr = LogisticRegression(C=1.0, penalty="l2")
 lr.fit(X_train_lda, y_train)
 y_pred = lr.predict(X_test_lda)
 ```
-
 
 ```python
 print("Accuracy score: {:.2f}".format(metrics.accuracy_score(y_test, y_pred)))
@@ -888,11 +906,11 @@ from sklearn.pipeline import Pipeline
 
 ```python
 work_flows_std = list()
-work_flows_std.append(('lda', LinearDiscriminantAnalysis(n_components=n_components)))
+work_flows_std.append(('lda', LinearDiscriminantAnalysis(n_components=n_classes-1)))
 work_flows_std.append(('logReg', LogisticRegression(C=1.0, penalty="l2")))
 model_std = Pipeline(work_flows_std)
 model_std.fit(X_train, y_train)
-y_pred=model_std.predict(X_test)
+y_pred = model_std.predict(X_test)
 ```
 
 ```python
