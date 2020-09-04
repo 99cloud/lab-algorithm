@@ -37,6 +37,11 @@ class CNN(tf.keras.Model):
 
 def main():
 
+    # GPU
+    # config = ConfigProto()
+    # config.gpu_options.allow_growth = True
+    # session = InteractiveSession(config=config)
+
     # define some hyper-parameters
     num_epochs = 5
     batch_size = 50

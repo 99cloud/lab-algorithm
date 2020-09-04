@@ -4,6 +4,7 @@
 # Python
 .ipynb_checkpoints
 .idea
+__pycache__/
 
 # MV
 webcam.mov
@@ -16,4 +17,5 @@ k-means-mglearn.py
 id-card-verify.py
 html/
 Face_Recognition _on_Olivetti/
+data
 
