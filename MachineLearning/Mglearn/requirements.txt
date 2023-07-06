@@ -4,5 +4,5 @@ mglearn==0.1.7
 numpy==1.17.4
 pandas==0.25.3
 scikit-learn==0.22
-scipy==1.4.1
+scipy==1.10.0
 sklearn
